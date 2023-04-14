@@ -1,0 +1,658 @@
+<?xml version="1.0"?>
+<skipper version="3.3.2.1792" mvc="Symfony" orm="Doctrine2" name="Calexia API" uuid="6d2e058a-9af8-416a-a4dc-452b5f9c9ced">
+  <module name="\Api" local-name="Api" namespace="\App\Entity" local-namespace="\App\Entity" export-format="Doctrine2PhpAnnotations" export-path="../src/Entity" uuid="61b45bd7-2431-467a-afba-79e1a9c3d334">
+    <entity name="\App\Entity\Project" local-name="Project" namespace="\App\Entity" uuid="2cd410b6-6d7c-4155-88ac-39f4b7839279">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="2b6bd6fb-0c8d-4ea8-ae37-edc2002f824b">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="92df320d-acb5-48bb-b523-f1890a78da28"/>
+      <field name="installable_power" type="integer" uuid="bf136986-afe7-4c5c-a137-f4bf793c44d6"/>
+      <field name="total_power" type="integer" uuid="e1aa4679-fd4d-4d01-9230-26cd7f2122bc"/>
+      <field name="p90" type="integer" uuid="7acfea35-0713-43d0-8f2c-8dade067f958"/>
+      <field name="p50" type="integer" uuid="88b33834-3b30-4de2-a622-d2803d3b44ae"/>
+      <field name="wgs84" type="string" size="255" uuid="601c2022-11db-4836-8747-38ac55e29832"/>
+      <field name="production_report_file" type="boolean" default="false" required="true" uuid="b1542bb1-3098-4741-81eb-a43273e6b01f"/>
+      <field name="is_customer_address" type="boolean" default="false" required="true" uuid="5c4dcced-75b3-463e-9bd4-8a2934bbad35"/>
+      <field name="address_id" type="integer" uuid="4c4abb49-8e78-4ce7-ac64-ef1771247f1b"/>
+      <field name="site_typology_id" type="integer" uuid="01103ba6-66ed-4ef6-a6c6-dbab2b9e3638"/>
+      <field name="customer_member_id" type="integer" uuid="8427ab3b-ebee-4157-8a2a-012981fe8c76"/>
+      <field name="manager_member_id" type="integer" uuid="34db3750-d7fe-44be-8c9d-3038f9a72a91"/>
+      <field name="business_introducer_member_id" type="integer" uuid="a6923858-92cd-40fc-bbaa-af183c275fb1"/>
+    </entity>
+    <association from="\App\Entity\Project" to="\App\Entity\Address" inverse-alias="address" many-owner="true" many-inverse="false" uuid="03ecc587-4fe7-4636-a4f3-516e6449eb50">
+      <association-field from="address_id" to="id" uuid="a01e1a36-614d-42bd-b099-f5474110bc99"/>
+    </association>
+    <association from="\App\Entity\Project" to="\App\Entity\Enum\Type" inverse-alias="siteTypology" many-owner="true" many-inverse="false" uuid="bd02dd8b-c6a7-40e9-945d-7f65698e0ccb">
+      <association-field from="site_typology_id" to="id" uuid="3ad8ce95-cb81-46d3-82ea-c1d933cd782a"/>
+    </association>
+    <association from="\App\Entity\Project" to="\App\Entity\Member" inverse-alias="customer" many-owner="true" many-inverse="false" uuid="148178f1-a069-4472-b433-16b643c1e568">
+      <association-field from="customer_member_id" to="id" uuid="ab03ab6e-b968-450c-8444-fb6648e7e276"/>
+    </association>
+    <association from="\App\Entity\Project" to="\App\Entity\Member" inverse-alias="manager" many-owner="true" many-inverse="false" uuid="67c344a6-db2e-44de-82cf-b2bdd29435f5">
+      <association-field from="manager_member_id" to="id" uuid="b305cf40-73ed-492d-99cd-03a685400443"/>
+    </association>
+    <association from="\App\Entity\Project" to="\App\Entity\Member" inverse-alias="business_introducer" many-owner="true" many-inverse="false" uuid="4f7ed82c-f2c4-4387-8e3d-2c483f17f258">
+      <association-field from="business_introducer_member_id" to="id" uuid="894d3606-50c5-4ee0-adb4-4523c277fc95"/>
+    </association>
+    <entity name="\App\Entity\SubField" local-name="SubField" namespace="\App\Entity" uuid="8a3a4f71-974e-4545-8a08-bc1bbbebf08b">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="34f1bb46-235a-44a2-9df4-571532396b8b">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="62c4c66d-58cd-4490-ba1d-aacec6ca263f"/>
+      <field name="installable_power" type="integer" uuid="d8b21de9-90f4-46ff-8a75-d683f57407ce"/>
+      <field name="azimut" type="integer" uuid="ceb30b56-397b-4186-b403-eedc6ba840e3"/>
+      <field name="pitch" type="integer" uuid="7f20f9b1-f08d-4c48-a58c-32ec454f1145"/>
+      <field name="p50" type="integer" uuid="a8d61ab4-e916-445b-9185-e5295d12dda4"/>
+      <field name="p90" type="integer" uuid="2d61dcaf-ef3f-4fcd-a023-bb3bc8f9a270"/>
+      <field name="project_id" type="integer" uuid="c3fca897-d505-42ec-80f0-37514bb650b7"/>
+    </entity>
+    <association from="\App\Entity\SubField" to="\App\Entity\Project" owner-alias="subFields" inverse-alias="project" many-owner="true" many-inverse="false" uuid="246e0097-575e-4955-995f-58e09ef493ca">
+      <association-field from="project_id" to="id" uuid="16575df6-210e-487a-a3ce-6e9bbb1e3fbf"/>
+    </association>
+    <entity name="\App\Entity\Conception" local-name="Conception" namespace="\App\Entity" uuid="8478a21f-6a25-444c-b1c1-d39eb7ec2ec3">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="d2a65e61-404b-431e-932b-f57b1d97a56f">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="8d03b98d-b1db-4d11-9b2e-384c38aa985d"/>
+      <field name="aps_file" type="boolean" uuid="7eea183f-dbda-4a90-9dd2-e244e9f78b21"/>
+      <field name="agricole_file" type="boolean" uuid="0b7c3365-c4d7-4527-925d-a10b1cb28792"/>
+      <field name="conception_status_id" type="integer" uuid="a01cb8fd-e665-4fc2-bbb9-abad26251934"/>
+      <field name="agricole_status_id" type="integer" enum-values="" uuid="c1f1a964-8034-4588-9fad-3cafc97e9ea5"/>
+      <field name="project_id" type="integer" uuid="2d47e027-64ae-4729-820b-d75a5dec1d33"/>
+    </entity>
+    <association from="\App\Entity\Conception" to="\App\Entity\Enum\Status" inverse-alias="conceptionStatus" many-owner="true" many-inverse="false" uuid="077461f4-88bc-496d-9239-7f4eb9756b5c">
+      <association-field from="conception_status_id" to="id" uuid="c8efb430-b806-48ce-aba3-92a57ac066d6"/>
+    </association>
+    <association from="\App\Entity\Conception" to="\App\Entity\Enum\Status" inverse-alias="agricoleStatus" many-owner="true" many-inverse="false" uuid="a6f56933-ad05-45c9-87ec-7b69afb20a69">
+      <association-field from="agricole_status_id" to="id" uuid="0b9a6091-a859-487f-af41-21b28fa4740d"/>
+    </association>
+    <association from="\App\Entity\Conception" to="\App\Entity\Project" owner-alias="conceptions" inverse-alias="project" many-owner="true" many-inverse="false" uuid="6db97b09-8402-4a95-a57a-13f22408efec">
+      <association-field from="project_id" to="id" uuid="fcfe08fc-f7ef-422e-8af9-6fb10731310d"/>
+    </association>
+    <entity name="\App\Entity\Authorization" local-name="Authorization" namespace="\App\Entity" uuid="93151876-74b5-473f-8373-b5ff60b3e3aa">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="c2ed80fd-1c64-4aef-b8ec-c5e6069b3f6e">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" required="true" unique="true" uuid="19b72385-b3e0-40da-b02a-a04f25f4551e"/>
+      <field name="index" type="string" required="true" unique="true" uuid="94fc398a-c7e5-436c-974c-4069a1efd53d"/>
+      <field name="pc_file" type="boolean" default="false" required="true" uuid="7ec3fbb0-2027-4d56-b228-9feb00a930ae"/>
+      <field name="cerfa_file" type="boolean" default="false" required="true" uuid="451f90c5-02bf-4306-8f89-c65678058f00"/>
+      <field name="decree_file" type="boolean" default="false" required="true" uuid="5bec5c90-58cf-4ea8-9b11-219089c4d0a7"/>
+      <field name="requirement_file" type="boolean" default="false" required="true" uuid="919edc2b-ba1d-4ed3-b055-9aa8801e7e97"/>
+      <field name="planned_at" type="datetime" uuid="2116d1cb-68b7-4a5f-8170-57d9b5be70b1"/>
+      <field name="received_at" type="datetime" uuid="21e733b5-f916-47f5-9002-0252bc907f87"/>
+      <field name="deposed_at" type="datetime" uuid="9963c89d-b9f2-4ab7-b2dd-a78eafb3f1d1"/>
+      <field name="address_id" type="integer" uuid="622d8a10-5885-4576-813d-245929184b1b"/>
+      <field name="bailiff_mission_id" type="integer" unique="true" uuid="4d9b0f54-a053-44ce-925b-8c52e2aaf30d"/>
+      <field name="anr_hall_request_id" type="integer" unique="true" uuid="2471b66d-24ab-442a-bc7e-1e9690391795"/>
+      <field name="anr_ta_request_id" type="integer" unique="true" uuid="d16a17e9-4899-41ad-9d9a-0be9fe0b925d"/>
+      <field name="anc_request_id" type="integer" unique="true" uuid="3bb8e99d-e7a7-409b-9fdd-3cc5347654c8"/>
+      <field name="dacct_request_id" type="integer" unique="true" uuid="8353e137-3f3e-4c00-b277-b3bc3a8b4135"/>
+      <field name="doc_request_id" type="integer" uuid="40113a0c-350c-479f-ad77-ad8d0d7db60c"/>
+      <field name="status_id" type="integer" uuid="a262e2de-d970-4c9a-8077-c50ebf721cad"/>
+      <field name="type_id" type="integer" uuid="f3f48c1f-f7ea-4bbd-bcdd-7dcfc18d2fff"/>
+      <field name="project_id" type="integer" uuid="8dc8af28-dfff-4846-8aa2-e789e49f6897"/>
+      <field name="beneficiary_member_id" type="integer" uuid="23856cc8-6427-47aa-bacd-093e1dcf1c18"/>
+      <field name="city_hall_company_id" type="integer" uuid="bbd4d1b0-8780-478f-acd7-1f62d9c87fbd"/>
+    </entity>
+    <association from="\App\Entity\Authorization" to="\App\Entity\Address" inverse-alias="cityhall_address" many-owner="true" many-inverse="false" uuid="da5e4290-b317-41d9-8196-205606474343">
+      <association-field from="address_id" to="id" uuid="e6ef9dba-4546-40dc-bb05-d948a00f02d7"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\BailiffMission" owner-alias="authorization" inverse-alias="bailiffMission" many-owner="false" many-inverse="false" uuid="417a98e5-6c76-49a3-8275-3ac886c570fc">
+      <association-field from="bailiff_mission_id" to="id" uuid="b4616b7a-e59f-4f67-bb35-a000cf3d6bc4"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\DocumentRequest" inverse-alias="anr_hall_request" many-owner="false" many-inverse="false" uuid="0fa7154e-aff5-4301-8c27-a4ce2d93271b">
+      <association-field from="anr_hall_request_id" to="id" uuid="5b201727-c7b3-4b5d-ba2f-fa4f18ec4994"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\DocumentRequest" inverse-alias="anr_ta_request" many-owner="false" many-inverse="false" uuid="b28a81e9-48ce-4d1c-98f6-563cf5c90404">
+      <association-field from="anr_ta_request_id" to="id" uuid="1bdd2b5a-763c-4047-a0cb-31361bbf3bef"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\DocumentRequest" inverse-alias="anc_request" many-owner="false" many-inverse="false" uuid="06dfb475-a917-4d1d-8826-67c2b70b634e">
+      <association-field from="anc_request_id" to="id" uuid="ec092004-9193-42d2-b96b-36d710965931"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\DocumentRequest" inverse-alias="dacct_request" many-owner="false" many-inverse="false" uuid="f8b1a654-e671-4745-9a13-f1a9d4909d97">
+      <association-field from="dacct_request_id" to="id" uuid="a796f189-bc5f-476a-ad8e-0f4f4cf1763c"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\DocumentRequest" inverse-alias="doc_request" many-owner="true" many-inverse="false" uuid="f4374952-3e85-4b85-92c0-ef3801ff81ca">
+      <association-field from="doc_request_id" to="id" uuid="e02b1dbc-9384-4fe5-954e-573c286bcc1e"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\Enum\Status" inverse-alias="status" many-owner="true" many-inverse="false" uuid="ca034cb6-57f8-42be-8698-d01ffd008c11">
+      <association-field from="status_id" to="id" uuid="2956cfdd-e58b-498d-a853-aa4f167d7692"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\Enum\Type" inverse-alias="type" many-owner="true" many-inverse="false" uuid="a4322284-ad24-453d-bcd4-3b0a99a08c63">
+      <association-field from="type_id" to="id" uuid="a04fc3e1-268e-49fa-b940-082945df6c1c"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\Project" owner-alias="authorizations" inverse-alias="project" many-owner="true" many-inverse="false" uuid="3ebf378b-a84a-4a2d-a0e8-096b5febd4c8">
+      <association-field from="project_id" to="id" uuid="ed90bb1f-dcf5-4a1f-928d-d7769ea9150b"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\Member" inverse-alias="beneficiary" many-owner="true" many-inverse="false" uuid="43bbcd53-d7db-4c56-8e5f-012643f4e908">
+      <association-field from="beneficiary_member_id" to="id" uuid="f2f41471-e1bc-4280-a753-36433c183f48"/>
+    </association>
+    <association from="\App\Entity\Authorization" to="\App\Entity\Company" inverse-alias="cityHall" many-owner="true" many-inverse="false" uuid="d37df2b0-78b5-4270-a917-1097c38eb906">
+      <association-field from="city_hall_company_id" to="id" uuid="82e4e05c-3fb3-4e8d-b6b9-6eb49b0fb2f7"/>
+    </association>
+    <entity name="\App\Entity\Member" local-name="Member" namespace="\App\Entity" uuid="61bb021f-1a84-45fd-a844-2f399bbf877e">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="ec790fbb-c961-49ed-a73a-9f96fbfbbd0c">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="lastname" type="string" required="true" uuid="fa1101ba-d161-4a05-be97-9660cd8910f5"/>
+      <field name="firstname" type="string" uuid="9c365124-3f53-4954-aaeb-30ccc509d792"/>
+      <field name="tel1" type="string" uuid="eefd317d-e895-41ea-aa56-7e52e9437c8c"/>
+      <field name="tel2" type="string" uuid="d193595a-4367-46a5-b393-6306d402f367"/>
+      <field name="mail1" type="string" uuid="973bfdcd-bcd0-4da8-a275-5b40f9d5f532"/>
+      <field name="mail2" type="string" uuid="e8966645-b6d8-440f-9978-f44dc35634c2"/>
+      <field name="address_id" type="uuid" uuid="c8890c9b-a741-43a7-b468-92e8e3580851"/>
+      <field name="company_id" type="integer" uuid="1ab97122-572a-43bb-aad5-eab99b0415fe"/>
+      <field name="civility_id" type="integer" uuid="59ce8474-5fc6-4f84-b8af-cf9888ea5c30"/>
+      <field name="type_id" type="integer" uuid="96d30112-0e54-454f-ab55-59988f2992ec"/>
+    </entity>
+    <association from="\App\Entity\Member" to="\App\Entity\Address" inverse-alias="address" many-owner="true" many-inverse="false" uuid="bd4cc62c-ae15-454b-b0b5-50507c50c3ba">
+      <association-field from="address_id" to="id" uuid="f53761e7-d6c5-477c-b1ca-e92ee4fda13e"/>
+    </association>
+    <association from="\App\Entity\Member" to="\App\Entity\Company" owner-alias="members" inverse-alias="company" many-owner="true" many-inverse="false" uuid="210f6b43-287c-466f-b5dd-6e0e71171af3">
+      <association-field from="company_id" to="id" uuid="dc5375cb-8b31-45d6-9d18-cbd707ac4b12"/>
+    </association>
+    <association from="\App\Entity\Member" to="\App\Entity\Enum\Civility" inverse-alias="civility" many-owner="true" many-inverse="false" uuid="7b62ac6b-ef0d-4312-8f9f-505784b5f776">
+      <association-field from="civility_id" to="id" uuid="a4977be0-fe6f-47d8-a2c1-56c6dfd5957f"/>
+    </association>
+    <association from="\App\Entity\Member" to="\App\Entity\Enum\Type" inverse-alias="type" many-owner="true" many-inverse="false" uuid="8db2a932-36ad-4706-806f-4c4fdda3b630">
+      <association-field from="type_id" to="id" uuid="a46e9b90-735f-4236-9faa-25d008499d6d"/>
+    </association>
+    <entity name="\App\Entity\Address" local-name="Address" namespace="\App\Entity" uuid="54d559cb-694a-4212-90c1-a0f78c0d6d7b">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="c522020c-a650-4b7f-b1bc-529d6fd42790">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="line1" type="string" uuid="4da48f7c-7c39-4d46-882c-52640692c520"/>
+      <field name="line2" type="string" uuid="91fe8031-7828-43f6-adf0-5b3f252b300a"/>
+      <field name="postcode" type="integer" required="true" uuid="732828cb-3525-4623-8ab3-4337e8c755c6"/>
+      <field name="city" type="string" required="true" uuid="641c52a9-e46c-48f7-b6c6-603abfe473d7"/>
+      <field name="country" type="string" required="true" uuid="7f57151b-a86e-4fcb-9695-b7e6f535724b"/>
+    </entity>
+    <entity name="\App\Entity\Claim" local-name="Claim" namespace="\App\Entity" uuid="78f01592-3a9a-4a87-bef0-b9ad4857d0b9">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="e7d5fffc-a0d4-4d04-9906-7659237fb148">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" description="requested_at" type="string" required="true" unique="true" uuid="e168462f-d166-4024-9f63-5da94bbc8c07"/>
+      <field name="deadline_at" type="datetime" uuid="d7bafdbb-4fe7-4e52-bc3c-69e3ebe7bdf0"/>
+      <field name="document_request_id" type="integer" unique="true" uuid="f52d8da5-8c1d-4905-aed5-c126ad327bd2"/>
+      <field name="authorization_id" type="integer" uuid="91b81499-d3fe-481b-9476-de0b1e2777a5"/>
+    </entity>
+    <association from="\App\Entity\Claim" to="\App\Entity\DocumentRequest" inverse-alias="documentRequest" many-owner="false" many-inverse="false" uuid="82d47f7d-28b0-4528-8d10-0c56144105a5">
+      <association-field from="document_request_id" to="id" uuid="7f7bceae-1a0f-47f0-bcfd-8837a3bdbe07"/>
+    </association>
+    <association from="\App\Entity\Claim" to="\App\Entity\Authorization" owner-alias="claims" inverse-alias="authorization" many-owner="true" many-inverse="false" uuid="ca61985e-8390-4a48-8106-6d125b8e5d80">
+      <association-field from="authorization_id" to="id" uuid="59e501ba-eab9-49fd-8789-0053109e67f7"/>
+    </association>
+    <entity name="\App\Entity\BailiffMission" local-name="BailiffMission" namespace="\App\Entity" uuid="3b203945-73c0-4347-bbc4-51a2b14d8c39">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="efd71f03-1477-4ae3-ba09-d46d9eb3805e">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="deposit_file" type="boolean" default="false" required="true" uuid="cb230bc8-2d1d-46be-8f40-0e1fd5030255"/>
+      <field name="invoice_file" type="boolean" default="false" required="true" uuid="1ce0fe5a-e688-472a-a319-37d5464f912d"/>
+      <field name="signed_quote_file" type="boolean" default="false" required="true" uuid="5a4d8001-aeb8-474d-8b22-23de92729bf7"/>
+      <field name="reports_file" type="boolean" default="false" required="true" uuid="0385ddc3-be4b-4199-abb3-089ad632b266"/>
+      <field name="start_at" type="datetime" uuid="9198724a-762b-424f-b1a9-fc875fc5be16"/>
+      <field name="status_bailiff_id" type="integer" uuid="e7c42fef-3f56-49b5-9331-afca14061e46"/>
+      <field name="status_displaying_id" type="integer" uuid="ca086b26-b6c9-45cc-a841-c6be112ea84a"/>
+      <field name="bailiff_member_id" type="integer" uuid="6f53373d-8665-4ccb-928f-86edcc4e9d21"/>
+    </entity>
+    <association from="\App\Entity\BailiffMission" to="\App\Entity\Enum\Status" inverse-alias="status_bailiff" many-owner="true" many-inverse="false" uuid="50d8ce30-8ea7-466f-b82b-b0dff3a980e5">
+      <association-field from="status_bailiff_id" to="id" uuid="bd838bd5-577a-4bd5-8f29-f51a22c8a84f"/>
+    </association>
+    <association from="\App\Entity\BailiffMission" to="\App\Entity\Enum\Status" inverse-alias="status_displaying" many-owner="true" many-inverse="false" uuid="bfdc09ec-1975-486b-9b84-f7fe3b674969">
+      <association-field from="status_displaying_id" to="id" uuid="c1458c24-d25e-4484-8a0a-632aeb375b06"/>
+    </association>
+    <association from="\App\Entity\BailiffMission" to="\App\Entity\Member" inverse-alias="bailiff" many-owner="true" many-inverse="false" uuid="10c4b621-e1ed-410d-8b99-f951706738dc">
+      <association-field from="bailiff_member_id" to="id" uuid="dafd122e-50ba-48dc-b16f-237ac4c3b81e"/>
+    </association>
+    <entity name="\App\Entity\DocumentRequest" local-name="DocumentRequest" namespace="\App\Entity" uuid="22e0e635-3ff7-46f2-a011-58d2e4a8b3a2">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="75c370c7-eff9-41f5-bbbe-50390cc77fd8">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="request_file" type="boolean" default="false" required="true" uuid="823e21a0-54e5-4ec8-bcc1-ffd9915b652f"/>
+      <field name="response_file" type="boolean" default="false" required="true" uuid="4ca21411-50a9-4293-b2cd-cfa2b404392e"/>
+      <field name="requested_at" type="datetime" uuid="432bcc8a-8fba-4716-af9c-357a1b1553f8"/>
+      <field name="response_at" type="datetime" uuid="5895134e-abe4-4cd0-b7f3-f15b9433d17b"/>
+      <field name="status_id" type="integer" uuid="77006414-a940-4e29-9195-4b680c5f11ba"/>
+    </entity>
+    <association from="\App\Entity\DocumentRequest" to="\App\Entity\Enum\Status" inverse-alias="status" many-owner="true" many-inverse="false" uuid="2267c012-3ca4-45f7-b319-57138788a473">
+      <association-field from="status_id" to="id" uuid="366b1b17-1c6c-41d0-a9e9-5a2123a49624"/>
+    </association>
+    <entity name="\App\Entity\Connection" local-name="Connection" namespace="\App\Entity" uuid="d6decafc-79b0-4f2c-9073-8ec21973a3f7">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="ac7f114e-4fae-471e-be18-b61b7595368b">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="851a3364-1a46-428f-b951-071476d1246e"/>
+      <field name="name" type="string" size="255" uuid="b9973528-fbda-4378-ba8a-721e7dbb03b0"/>
+      <field name="power" description="kVA" type="float" uuid="cbf1498d-19d6-4866-b644-003b7f8fdc05"/>
+      <field name="gps" type="string" uuid="f8dd4640-d7fe-45b0-8f87-464e1d14c09a"/>
+      <field name="unit_price" description="c&#x20AC;/kWh" type="float" uuid="f4e28d8d-1db1-4d5f-8731-b2d7befbc3e2"/>
+      <field name="requested_at" type="datetime" uuid="8e78c6a7-23f5-4929-b682-633a1ed77089"/>
+      <field name="request_file" type="boolean" uuid="76362473-7066-4027-843d-04c2adc7b511"/>
+      <field name="completed_at" description="T0" type="boolean" uuid="04768181-469a-4000-8247-5626e3fa1c88"/>
+      <field name="contract_number" type="string" uuid="03ac7796-66ae-4e02-ba08-1413a27b8d34"/>
+      <field name="contract_file" type="boolean" default="false" required="true" uuid="50e0cf17-7d09-4dfb-bd1a-6e0333a64af0"/>
+      <field name="info_file" type="boolean" default="false" required="true" uuid="eed0c37d-bd00-4284-b2c2-de61616c498c"/>
+      <field name="consuel_sent_at" type="datetime" uuid="b8060abb-4889-4bf4-9a3d-0fbd2ce64ddf"/>
+      <field name="consuel_file" type="boolean" default="false" required="true" uuid="0a15d802-5285-4f68-93ae-50b6ac5828fb"/>
+      <field name="connected_at" type="datetime" uuid="7e4634d2-d7a1-42be-b3fc-798205e2a00a"/>
+      <field name="is_connected" type="boolean" default="false" required="true" uuid="165c37a3-c44a-461a-a8e8-38c35698484b"/>
+      <field name="commissioned_at" type="datetime" uuid="4ff0bac0-6280-432a-abbd-c49ad1285cee"/>
+      <field name="is_commissioned" type="boolean" default="false" required="true" uuid="0aadbc4b-fc85-4572-ba1c-46d2e555818e"/>
+      <field name="cex_id" type="integer" unique="true" uuid="81c78369-09a9-4a6b-8a04-f501e09f494c"/>
+      <field name="card_id" type="integer" unique="true" uuid="402fa05f-222e-412f-940e-286d6b24b206"/>
+      <field name="project_id" type="integer" uuid="655adb7b-caf7-4dbb-87e8-7bada73322fd"/>
+      <field name="contract_status_id" type="integer" uuid="9fcb0142-078f-449d-b251-52390ebf1d10"/>
+      <field name="connection_status_id" type="integer" uuid="de2e8bea-3968-4917-8396-941300e35c2e"/>
+      <field name="connection_type_id" type="integer" uuid="7f1b555f-7aba-4c15-adf6-e43b8f4edd33"/>
+      <field name="operator_company_id" type="integer" uuid="43eaec6b-f146-4c34-a7b7-747d33d68cde"/>
+      <field name="provider_company_id" type="integer" uuid="b414313a-06df-465f-9501-cf57a4edfa3f"/>
+      <field name="provider_member_id" type="integer" uuid="e49ed3b8-7379-4b1f-a2c8-b255dd84a109"/>
+    </entity>
+    <association from="\App\Entity\Connection" to="\App\Entity\Cex" owner-alias="connection" inverse-alias="cex" many-owner="false" many-inverse="false" uuid="bfa30707-0bbd-46d3-94df-aecf6fb9fafd">
+      <association-field from="cex_id" to="id" uuid="77f8753e-a6d9-45ce-a21d-5a976e42c9c8"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Card" owner-alias="connection" inverse-alias="card" many-owner="false" many-inverse="false" uuid="a439a6a6-1f4c-46cb-b7b9-5418a1d61ebc">
+      <association-field from="card_id" to="id" uuid="db699311-e1cb-458b-ba07-9c1c20d4b07f"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Project" owner-alias="connections" inverse-alias="project" many-owner="true" many-inverse="false" uuid="6dbf6cc3-315c-4e7c-8344-949da20387eb">
+      <association-field from="project_id" to="id" uuid="c59cf4b1-be4f-46a2-a0aa-2ab229eed603"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Enum\Status" inverse-alias="contractStatus" many-owner="true" many-inverse="false" uuid="3c22064c-7548-491d-b69b-0560544e4e2f">
+      <association-field from="contract_status_id" to="id" uuid="32ad67ca-a090-494c-8aef-795c6ce06a75"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Enum\Status" inverse-alias="connectionStatus" many-owner="true" many-inverse="false" uuid="bd62211f-6841-4ba2-a8fc-622d143567cd">
+      <association-field from="connection_status_id" to="id" uuid="3193bff0-9ef1-44c1-afcb-25f390be64d6"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Enum\Type" inverse-alias="connectionType" many-owner="true" many-inverse="false" uuid="2acfa2d5-d193-4624-9400-78be643b7e94">
+      <association-field from="connection_type_id" to="id" uuid="5cac106d-6863-44ea-b0b5-7fd5fd5a76c8"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Company" inverse-alias="operator" many-owner="true" many-inverse="false" uuid="faaa1e4f-6fe8-42a5-8daa-1974fc400295">
+      <association-field from="operator_company_id" to="id" uuid="def4fd26-1080-4c4a-981e-c9c7f3ea9adb"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Company" inverse-alias="providerCompany" many-owner="true" many-inverse="false" uuid="932797d1-1bf1-4d1d-8d74-0940f5f6ce35">
+      <association-field from="provider_company_id" to="id" uuid="d2bc0af3-fe0d-4ed6-be0d-e90918100322"/>
+    </association>
+    <association from="\App\Entity\Connection" to="\App\Entity\Member" inverse-alias="providerManager" many-owner="true" many-inverse="false" uuid="84374515-c4da-4617-b5a3-5fecc6ab54a4">
+      <association-field from="provider_member_id" to="id" uuid="9dae7329-c0f1-4358-8c23-019e553a6630"/>
+    </association>
+    <entity name="\App\Entity\Offer" local-name="Offer" namespace="\App\Entity" uuid="db2a3a8b-d6e5-4f1c-943b-d18fd5698848">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="1e72a671-ad96-4ce0-85e8-7077218c6ca3">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="3062a9ea-b86c-4561-8659-80dae37b9695"/>
+      <field name="request_at" type="datetime" uuid="fd3b9662-c72d-4f59-a554-de3d26c181c0"/>
+      <field name="offer_file" type="boolean" default="false" uuid="f3841099-f5e9-4058-99e6-fcde4fb12813"/>
+      <field name="completed_at" description="T0" type="boolean" uuid="5b16e4c2-7aaa-4b26-9803-23f84313c846"/>
+      <field name="is_offer_signed" type="boolean" uuid="41104b7e-8f99-4f4b-9459-a77b7f859029"/>
+      <field name="connection_id" type="uuid" uuid="06db20e3-9a8e-48e1-83e9-c76f3a19f6a1"/>
+      <field name="deposit1_amount" description="&#x20AC;" type="float" uuid="3f2934a4-2d82-436e-81fb-2da95b85f3a5"/>
+      <field name="deposit1_proof_file" type="boolean" default="false" required="true" uuid="e1d88b16-6ec6-46e7-8636-aca5f73899e8"/>
+      <field name="deposit1_invoice_file" type="boolean" default="false" required="true" uuid="578ec409-90de-4283-a4ab-ed0ac44aa024"/>
+      <field name="deposit1_at" type="datetime" uuid="f5b6cccb-cc82-4469-baef-702915f49bbd"/>
+      <field name="deposit2_amount" description="&#x20AC;" type="float" uuid="181922e3-b17d-471f-a7cb-f270de6157c1"/>
+      <field name="deposit2_proof_file" type="boolean" default="false" required="true" uuid="5bde917c-62f7-46eb-9b0a-07b123f5b1c4"/>
+      <field name="deposit2_invoice_file" type="boolean" default="false" required="true" uuid="b407c105-42ff-4f73-8257-a96909b851d9"/>
+      <field name="deposit2_at" type="datetime" uuid="516f512a-a06e-4624-8fc9-6c1db1efee5b"/>
+      <field name="balance_amount" description="&#x20AC;" type="float" uuid="266a5f82-5b70-49f3-a20a-e63fa3b71bfd"/>
+      <field name="balance_proof_file" type="boolean" default="false" required="true" uuid="12058ac3-93dc-4bda-9b26-03d55541da43"/>
+      <field name="balance_invoice_file" type="boolean" default="false" required="true" uuid="70a32313-7c2d-417d-a9a7-6b851be1b26e"/>
+      <field name="balanced_at" type="datetime" uuid="8a3e3f03-3c60-4d73-a29e-ef84339d4ec4"/>
+      <field name="total_cost" description="deposit1_amount + deposit2_amount + balance_amount" type="float" uuid="033bdef6-5a6e-44d8-bd34-250678ac3708"/>
+      <field name="status_id" type="integer" uuid="a23b6556-1145-4038-8247-4271ebab4df1"/>
+      <field name="type_id" type="integer" uuid="d016c272-83e9-43a5-a706-1cbfdd93ffcd"/>
+    </entity>
+    <association from="\App\Entity\Offer" to="\App\Entity\Connection" owner-alias="offers" inverse-alias="connection" many-owner="true" many-inverse="false" uuid="896e10d2-4823-4e74-a260-861943806cec">
+      <association-field from="connection_id" to="id" uuid="1cc6dfca-4831-4cf6-8132-21867371f562"/>
+    </association>
+    <association from="\App\Entity\Offer" to="\App\Entity\Enum\Status" inverse-alias="status" many-owner="true" many-inverse="false" uuid="049de462-a2a1-4213-87db-9fcab19ee076">
+      <association-field from="status_id" to="id" uuid="c8d7fdb1-0636-4891-b116-ed5500e59c03"/>
+    </association>
+    <association from="\App\Entity\Offer" to="\App\Entity\Enum\Type" inverse-alias="type" many-owner="true" many-inverse="false" uuid="007458e9-a460-47c0-ac45-69c2276dcb6b">
+      <association-field from="type_id" to="id" uuid="c67cdb2d-b62b-401e-af0d-766caaabd68c"/>
+    </association>
+    <entity name="\App\Entity\Card" local-name="Card" namespace="\App\Entity" uuid="77858b8b-9330-4a58-a8b5-704c50036ad8">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="45094760-31d3-4888-b643-8114646eca3e">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="a89716bc-2518-45df-901f-0535b0252eb7"/>
+      <field name="card_s_file" type="boolean" default="false" required="true" uuid="bc226f98-ffe5-42b8-87b2-dd4e87aede5b"/>
+      <field name="card_i_file" type="boolean" default="false" required="true" uuid="3d80332b-9c05-4ddc-b5ac-e46c735eb834"/>
+      <field name="status_id" type="integer" uuid="5f469477-1c3d-4faa-a362-966ae5af9252"/>
+    </entity>
+    <association from="\App\Entity\Card" to="\App\Entity\Enum\Status" inverse-alias="status" many-owner="true" many-inverse="false" uuid="32ad5236-b6dc-4782-b1d6-cd49834c1e5d">
+      <association-field from="status_id" to="id" uuid="d05637d1-6970-471c-9905-c936175a3607"/>
+    </association>
+    <entity name="\App\Entity\Cex" local-name="Cex" namespace="\App\Entity" uuid="33d8553b-1a59-4b38-882e-8c97deace214">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="47ba4547-288a-48ad-a56e-791a54144a7b">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="label" type="string" size="255" required="true" unique="true" uuid="2e8ad02f-18b2-4a44-81df-0403cef1e681"/>
+      <field name="cex_file" type="boolean" default="false" required="true" uuid="3944cf4e-d7a5-4a20-be9f-95723d4c364f"/>
+      <field name="is_signed" type="boolean" default="false" required="true" uuid="8a9bc70d-ec1f-4fa9-8120-518c606fbdf2"/>
+      <field name="status_id" type="integer" uuid="f70b240b-b09d-48f4-87d8-054ca0aec566"/>
+    </entity>
+    <association from="\App\Entity\Cex" to="\App\Entity\Enum\Status" inverse-alias="status" many-owner="true" many-inverse="false" uuid="e64f74b9-a9b4-468c-b164-ed5e2252b40c">
+      <association-field from="status_id" to="id" uuid="a8640a8d-260d-4508-ab56-c1dd6c72a578"/>
+    </association>
+    <entity name="\App\Entity\Property" local-name="Property" namespace="\App\Entity" uuid="98ad99f9-ecea-4c78-a20a-1794ba4c7aa6">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="9f50d18b-fe30-4e01-8d0f-f978fb95967a">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="notary_mission_label" type="string" size="255" required="true" unique="true" uuid="05fc5932-29b7-4595-9090-2425732b0f6c"/>
+      <field name="geometrician_mission_label" type="string" size="255" required="true" unique="true" uuid="80772a1f-fb59-4e70-8156-03798d54b64c"/>
+      <field name="drawing_file" type="boolean" default="false" required="true" uuid="32e779f0-c74a-43a6-9c4f-ebdb7b0beaf8"/>
+      <field name="cadastre_file" type="boolean" default="false" required="true" uuid="837d45fe-4d32-4ffb-87f3-96a1b64cb939"/>
+      <field name="additionnal1_file" type="boolean" default="false" required="true" uuid="b0ec55c1-023d-495c-afb5-06ae2dc2b7c3"/>
+      <field name="additionnal2_file" type="boolean" default="false" required="true" uuid="4c6b0543-460a-4f37-94eb-96d72af2e06d"/>
+      <field name="eddv1_file" type="boolean" default="false" required="true" uuid="bb530b27-9a7b-4702-9327-d7bff654cb7c"/>
+      <field name="eddv2_file" type="boolean" default="false" required="true" uuid="76b064c7-852c-489e-94d6-d53f11f4a8b0"/>
+      <field name="notary_mission_name" type="string" size="255" unique="true" uuid="6dcabade-0192-405c-927f-1bb7cbf1c42b"/>
+      <field name="codev_file" type="boolean" default="false" required="true" uuid="cc139dc8-ab53-4bd3-b816-381416fe8488"/>
+      <field name="annex_codev_file" type="boolean" default="false" required="true" uuid="a98ee036-a1eb-4f3b-b9ce-b98e0e605fff"/>
+      <field name="lessor_cni_file" type="boolean" default="false" required="true" uuid="4fb85838-8cf9-477e-8501-ad5d190dacc6"/>
+      <field name="lessor_kbis_file" type="boolean" default="false" required="true" uuid="02ad2978-1953-4924-aaac-c5f12f1043e8"/>
+      <field name="lessor_propriety_file" type="boolean" default="false" required="true" uuid="b3afb820-74bb-44a2-be1f-9f7255bf0f86"/>
+      <field name="lessor_ehfspf_file" type="boolean" default="false" required="true" uuid="86ddccb6-47a2-41cd-bbce-14669e1d2204"/>
+      <field name="lease_file" type="boolean" default="false" required="true" uuid="2d46c05d-ef26-4938-b595-9d687d07eb8c"/>
+      <field name="annex_lease_file" type="boolean" default="false" required="true" uuid="6cd4a6f9-8bbe-4260-9698-3a5500080927"/>
+      <field name="is_lease_signed" type="boolean" default="false" required="true" uuid="ad1a51c1-91de-4df6-b3c7-e0d34deb4513"/>
+      <field name="signed_at" type="datetime" uuid="42ea2571-5718-4904-8ea2-b58c89df5769"/>
+      <field name="lease_status_id" type="integer" uuid="6601e16c-bcb0-4b93-b0d7-5afe1a8e66f6"/>
+      <field name="geometrician_status_id" type="integer" uuid="420c0570-b14e-4d39-b85f-d76713650086"/>
+      <field name="project_id" type="integer" unique="true" uuid="2841cb24-9164-4f5d-a82b-456d88379fb5"/>
+      <field name="geometrician_member_id" type="integer" uuid="5897e560-6b65-4b19-ba82-1647bfc02d62"/>
+      <field name="cleric_member_id" type="integer" uuid="48ce2350-c1d6-4964-bab6-0a605b00c355"/>
+      <field name="notary_member_id" type="integer" uuid="ba624da0-4d8a-4488-bfd4-9fd3ce065142"/>
+      <field name="lessee_company_id" type="integer" uuid="2df4bf93-9b67-467c-b984-380d1de608fb"/>
+      <field name="lessee_member_id" type="integer" uuid="7610b156-a62f-46ca-b8f1-e329588082bb"/>
+      <field name="lessor_member_id" type="integer" uuid="8cd7dbc9-9275-4d2c-9485-e4b2d9da16bf"/>
+      <field name="lessor_company_id" type="integer" uuid="5aaef80d-a06f-4648-acfc-d4c2f11a0052"/>
+    </entity>
+    <association from="\App\Entity\Property" to="\App\Entity\Enum\Status" inverse-alias="leaseStatus" many-owner="true" many-inverse="false" uuid="f914956a-4797-4402-8d32-8b1bf0b644f9">
+      <association-field from="lease_status_id" to="id" uuid="c1c5bf55-15bf-4771-9f52-b0e10160ef87"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Enum\Status" inverse-alias="geometricianStatus" many-owner="true" many-inverse="false" uuid="2b1e3481-4eb2-4e28-9531-cd58588c9bdc">
+      <association-field from="geometrician_status_id" to="id" uuid="795900a0-babf-4208-b17b-ae6f04fb5e2b"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Project" owner-alias="property" inverse-alias="project" many-owner="false" many-inverse="false" uuid="f86bf4e3-5f31-4e65-8ddd-1cb3b09de997">
+      <association-field from="project_id" to="id" uuid="8c3c72c4-1eae-4a07-9ebf-9c351b48c8ed"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Member" inverse-alias="geometrician" many-owner="true" many-inverse="false" uuid="5b1559d5-d139-45f0-8c78-de695a22d20f">
+      <association-field from="geometrician_member_id" to="id" uuid="7d07bad9-a862-4434-a2c1-fde03edde734"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Member" inverse-alias="cleric" many-owner="true" many-inverse="false" uuid="7c080cf9-6691-4fcb-982d-1ff83b327e09">
+      <association-field from="cleric_member_id" to="id" uuid="0a5d2519-6dca-41fc-b7f6-47b5422a49c6"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Member" inverse-alias="notary" many-owner="true" many-inverse="false" uuid="36955d34-e6d6-4d55-b711-2733fdaf09df">
+      <association-field from="notary_member_id" to="id" uuid="2f3d3486-b152-4040-a28d-e656f7d29bea"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Company" inverse-alias="lesseeCompany" many-owner="true" many-inverse="false" uuid="7b114d7c-3ef3-4e2a-811a-1963b2f24d49">
+      <association-field from="lessee_company_id" to="id" uuid="c1735d72-f46c-4072-8a0f-eb44122c4ac3"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Member" inverse-alias="lessee" many-owner="true" many-inverse="false" uuid="8b131837-b39c-4a6c-99d8-00243b23b8eb">
+      <association-field from="lessee_member_id" to="id" uuid="afced673-b0f9-4323-8e25-5189546c738f"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Member" inverse-alias="lessor" many-owner="true" many-inverse="false" uuid="21b50402-03fa-4478-a913-58ba63bb17bb">
+      <association-field from="lessor_member_id" to="id" uuid="d80953b6-1dc7-450c-932a-e1830d7c7795"/>
+    </association>
+    <association from="\App\Entity\Property" to="\App\Entity\Company" inverse-alias="lessorCompany" many-owner="true" many-inverse="false" uuid="c6e45d28-f9b9-4bf2-b296-7deee323c5c0">
+      <association-field from="lessor_company_id" to="id" uuid="251163b3-6ece-4a85-9666-8f8fc76df9cf"/>
+    </association>
+    <entity name="\App\Entity\Construction" local-name="Construction" namespace="\App\Entity" uuid="822ea6e4-7b90-48c1-b7bf-53b4bb2261ba">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="a53c1696-3791-44c7-b16a-7aa380ecd0d8">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="epc_contract_file" type="boolean" default="false" required="true" uuid="aa8c3f15-a87a-4384-85df-9b9ed0820ce3"/>
+      <field name="quote_approval" type="boolean" default="false" required="true" uuid="2b435dec-f627-4920-ac46-41f371609c47"/>
+      <field name="signed_at" type="datetime" uuid="476305a9-e500-4632-a2f5-0639fe2e016d"/>
+      <field name="started_at" type="datetime" uuid="58412393-cfd3-491d-84e2-352da3d7afbe"/>
+      <field name="soil_study_file" type="boolean" default="false" required="true" uuid="6bbeb1cf-85c7-48ed-9171-669dcffd8da0"/>
+      <field name="structural_study_file" type="boolean" default="false" required="true" uuid="0ab5740b-5c6f-4636-be40-d7354826a870"/>
+      <field name="earthwork_step" type="boolean" default="false" required="true" uuid="6f2eafb7-5d84-479f-a0ee-32db97923526"/>
+      <field name="trench_step" type="boolean" default="false" required="true" uuid="26f40e2d-2637-42b7-ba93-52b2d9ecf7ed"/>
+      <field name="foundations_step" type="boolean" default="false" required="true" uuid="b8ef87a2-ca93-4257-913a-054d0bd78201"/>
+      <field name="structure_step" type="boolean" default="false" required="true" uuid="6733ec57-80da-480e-ac99-c550a9885472"/>
+      <field name="roof_step" type="boolean" default="false" required="true" uuid="f4cac61e-454f-4c94-a89b-f5a533a324d7"/>
+      <field name="photovoltaic_step" type="boolean" default="false" required="true" uuid="66783b70-66df-4c24-a4be-a968bc9eccb0"/>
+      <field name="delivery_file" type="boolean" default="false" required="true" uuid="606479a0-17bb-44f1-857e-dbd1a7b3f5f9"/>
+      <field name="reservations_removal_file" type="boolean" default="false" required="true" uuid="7291bfe2-74f5-4917-a982-a34e99ae00ff"/>
+      <field name="delivered_at" type="datetime" uuid="99dd939a-8a7f-4a58-8e43-188eb36e94da"/>
+      <field name="reservations_removed_at" type="datetime" uuid="9be32ef9-2f67-419c-8e1c-503da802500c"/>
+      <field name="status_id" type="integer" uuid="9d685fc8-5897-4627-9fe5-a44bdbb83503"/>
+      <field name="project_id" type="integer" unique="true" uuid="b3a20618-9916-432e-a01e-0fe71fe35998"/>
+      <field name="manager1_member_id" type="integer" uuid="603e3ad4-fcbb-42c0-896c-7ff3a8926630"/>
+      <field name="manager2_member_id" type="integer" uuid="a6c547dd-553e-4f7d-a7d8-0d774afda988"/>
+    </entity>
+    <association from="\App\Entity\Construction" to="\App\Entity\Enum\Status" inverse-alias="constructionStatus" many-owner="true" many-inverse="false" uuid="f8924fcf-7c41-4c10-806e-77fbe1683e3d">
+      <association-field from="status_id" to="id" uuid="ef28d2bf-094d-41f0-8916-4134676c6707"/>
+    </association>
+    <association from="\App\Entity\Construction" to="\App\Entity\Project" owner-alias="construction" inverse-alias="project" many-owner="false" many-inverse="false" uuid="0e966f99-b3f8-4aa7-8ca1-71a781b68860">
+      <association-field from="project_id" to="id" uuid="0d07f58c-e588-4037-9678-47e60fe9723b"/>
+    </association>
+    <association from="\App\Entity\Construction" to="\App\Entity\Member" inverse-alias="manager1" many-owner="true" many-inverse="false" uuid="5069348c-b2ac-4b3d-9f40-555f24647207">
+      <association-field from="manager1_member_id" to="id" uuid="fbc28729-2b13-46ee-8b15-9cf5adbd9821"/>
+    </association>
+    <association from="\App\Entity\Construction" to="\App\Entity\Member" inverse-alias="manager2" many-owner="true" many-inverse="false" uuid="965181d8-5744-4f92-b89b-1bbe07c81625">
+      <association-field from="manager2_member_id" to="id" uuid="6d43ec63-82fe-47b3-a37e-ed1eb07532fa"/>
+    </association>
+    <entity name="\App\Entity\Company" local-name="Company" namespace="\App\Entity" uuid="550a1f8b-dfd0-4677-8323-605d02ebcf06">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="457d8e29-dbf8-4d68-80ac-dc8931976c21">
+        <orm-attributes>
+          <attribute name="generator">
+            <attribute name="strategy">AUTO</attribute>
+          </attribute>
+        </orm-attributes>
+      </field>
+      <field name="social_reason" type="string" uuid="63ca079c-0164-4937-85a9-f01b7247fe19"/>
+      <field name="SIREN" type="string" uuid="b8349556-f9e2-473d-9189-3aa773029710"/>
+      <field name="SIRET" type="string" uuid="84d9fe5e-623f-4f22-8a42-8e871d95048e"/>
+      <field name="TVA" type="string" uuid="8cfce710-375d-47dc-8d47-acc293d542db"/>
+      <field name="SIREN_file" type="boolean" default="false" required="true" uuid="140a3e65-4a20-4053-b509-cdc77e6a49aa"/>
+      <field name="kbis_file" type="boolean" default="false" required="true" uuid="0dbfe708-020a-420f-8ee0-99712fe274eb"/>
+      <field name="bank_details_file" type="boolean" default="false" required="true" uuid="70375f32-9039-41ba-af74-caf654a43e33"/>
+      <field name="status_id" type="integer" uuid="7af4c210-bf54-4ef6-9ccd-f111c9be0f49"/>
+      <field name="address_id" type="integer" uuid="eb32808f-2168-4ab2-bb2b-a0d73c384e55"/>
+      <field name="company_id" type="integer" uuid="68d4030c-2ac3-45d0-8ebc-d7d0a339dbc0"/>
+    </entity>
+    <association from="\App\Entity\Company" to="\App\Entity\Enum\Status" inverse-alias="legalStatus" many-owner="true" many-inverse="false" uuid="950365ad-85c1-4ec1-8519-cbeaa7d5d110">
+      <association-field from="status_id" to="id" uuid="1065634c-3a10-4cef-b97d-1b407b0416e4"/>
+    </association>
+    <association from="\App\Entity\Company" to="\App\Entity\Address" inverse-alias="address" many-owner="true" many-inverse="false" uuid="9634b5a0-9d69-4192-8b70-7c85fd928202">
+      <association-field from="address_id" to="id" uuid="5afeea86-ad8b-426d-b045-0a853c1f180c"/>
+    </association>
+    <association from="\App\Entity\Company" to="\App\Entity\Company" owner-alias="subsidiaries" inverse-alias="holding" many-owner="true" many-inverse="false" uuid="7d328074-e3bf-4163-8ab9-bfb6701e5d6d">
+      <association-field from="company_id" to="id" uuid="f47d8251-ddef-4942-a03e-fd5b8449c226"/>
+    </association>
+    <region namespace="\App\Entity\Enum" local-namespace="Enum" export-path="Enum" caption="Enum" uuid="7eaeeef7-7c40-47a7-8844-da1be2e100a3">
+      <entity name="\App\Entity\Enum\Civility" local-name="Civility" namespace="\App\Entity\Enum" uuid="71c825e6-dcbd-4622-b601-d66bb46ab981">
+        <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="8131e785-a2f8-4c00-a6ef-73a249fe8dbc">
+          <orm-attributes>
+            <attribute name="generator">
+              <attribute name="strategy">AUTO</attribute>
+            </attribute>
+          </orm-attributes>
+        </field>
+        <field name="label" type="string" required="true" unique="true" uuid="d5a18f0f-7fb6-49c6-ad62-bc9da6053dcb"/>
+      </entity>
+      <entity name="\App\Entity\Enum\Status" local-name="Status" namespace="\App\Entity\Enum" uuid="2955eb6b-9e30-40b6-ab61-8345e247b94b">
+        <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="f9a666e1-fb1b-4169-be6b-6c62e0756b90">
+          <orm-attributes>
+            <attribute name="generator">
+              <attribute name="strategy">AUTO</attribute>
+            </attribute>
+          </orm-attributes>
+        </field>
+        <field name="label" type="string" uuid="4d43ebf4-5e81-4fef-8b15-4a451cc28d22"/>
+        <field name="color" type="string" uuid="a9b39882-62dd-4e80-996c-678811ebe7fd"/>
+        <field name="icon" type="string" uuid="4605aa75-4e5d-4dbd-a5b4-05d3c90ac2b7"/>
+        <field name="code" type="string" size="30" required="true" uuid="1aa031e7-2f71-4780-a517-c25e326f6015"/>
+        <field name="type" type="string" size="30" required="true" uuid="0d7f5b1a-c101-48a1-871e-5b3f90b99afd"/>
+      </entity>
+      <entity name="\App\Entity\Enum\Type" local-name="Type" namespace="\App\Entity\Enum" uuid="cb6d0bbd-d190-46cb-a946-f79d38d940de">
+        <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="69a1e415-6ad6-4f5d-9acf-fed890966a32">
+          <orm-attributes>
+            <attribute name="generator">
+              <attribute name="strategy">AUTO</attribute>
+            </attribute>
+          </orm-attributes>
+        </field>
+        <field name="label" type="string" uuid="44e4a380-3871-4f0e-8d41-18a9bcb3521e"/>
+        <field name="color" type="string" uuid="ed798063-b681-439d-83f8-56e816fbf043"/>
+        <field name="icon" type="string" uuid="017ec893-545f-40d4-b3ed-ce59141b0093"/>
+        <field name="code" type="string" size="30" required="true" uuid="f9a8375f-aa04-4818-b295-07aa679e6b77"/>
+        <field name="type" type="string" size="30" required="true" uuid="50417035-8b74-47bf-abb5-206540aa8cf9"/>
+      </entity>
+    </region>
+    <orm-attributes>
+      <attribute name="filename-format">entity-name-only</attribute>
+      <attribute name="db-naming-strategy">default</attribute>
+    </orm-attributes>
+  </module>
+  <visual-data>
+    <association uuid="007458e9-a460-47c0-ac45-69c2276dcb6b" center-position-x="-356" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="03ecc587-4fe7-4636-a4f3-516e6449eb50" caption1-position-x="52" caption1-position-y="-23" center-position-x="0" center-position-y="38" color="#969696" split="1"/>
+    <association uuid="049de462-a2a1-4213-87db-9fcab19ee076" color="#969696" split="1"/>
+    <association uuid="06dfb475-a917-4d1d-8826-67c2b70b634e" center-position-x="9" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="077461f4-88bc-496d-9239-7f4eb9756b5c" color="#969696" split="1"/>
+    <association uuid="0e966f99-b3f8-4aa7-8ca1-71a781b68860" center-position-x="0" center-position-y="20" color="#969696"/>
+    <association uuid="0fa7154e-aff5-4301-8c27-a4ce2d93271b" center-position-x="9" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="10c4b621-e1ed-410d-8b99-f951706738dc" center-position-x="0" center-position-y="8" color="#969696" split="1"/>
+    <association uuid="148178f1-a069-4472-b433-16b643c1e568" color="#969696" split="1"/>
+    <association uuid="210f6b43-287c-466f-b5dd-6e0e71171af3" center-position-x="1" center-position-y="-4" color="#969696"/>
+    <association uuid="21b50402-03fa-4478-a913-58ba63bb17bb" color="#969696" split="1"/>
+    <association uuid="2267c012-3ca4-45f7-b319-57138788a473" center-position-x="0" center-position-y="48" color="#969696" split="1"/>
+    <association uuid="246e0097-575e-4955-995f-58e09ef493ca" center-position-x="-36" center-position-y="3" color="#969696"/>
+    <association uuid="2acfa2d5-d193-4624-9400-78be643b7e94" color="#969696" split="1"/>
+    <association uuid="2b1e3481-4eb2-4e28-9531-cd58588c9bdc" color="#969696" split="1"/>
+    <association uuid="32ad5236-b6dc-4782-b1d6-cd49834c1e5d" color="#969696" split="1"/>
+    <association uuid="36955d34-e6d6-4d55-b711-2733fdaf09df" color="#969696" split="1"/>
+    <association uuid="3c22064c-7548-491d-b69b-0560544e4e2f" color="#969696" split="1"/>
+    <association uuid="3ebf378b-a84a-4a2d-a0e8-096b5febd4c8" center-position-x="0" center-position-y="-43" color="#969696"/>
+    <association uuid="417a98e5-6c76-49a3-8275-3ac886c570fc" center-position-x="-2" center-position-y="0" color="#969696"/>
+    <association uuid="43bbcd53-d7db-4c56-8e5f-012643f4e908" color="#969696" split="1"/>
+    <association uuid="4f7ed82c-f2c4-4387-8e3d-2c483f17f258" color="#969696" split="1"/>
+    <association uuid="5069348c-b2ac-4b3d-9f40-555f24647207" color="#969696" split="1"/>
+    <association uuid="50d8ce30-8ea7-466f-b82b-b0dff3a980e5" color="#969696" split="1"/>
+    <association uuid="5b1559d5-d139-45f0-8c78-de695a22d20f" color="#969696" split="1"/>
+    <association uuid="67c344a6-db2e-44de-82cf-b2bdd29435f5" color="#969696" split="1"/>
+    <association uuid="6db97b09-8402-4a95-a57a-13f22408efec" center-position-x="43" center-position-y="22" color="#969696"/>
+    <association uuid="6dbf6cc3-315c-4e7c-8344-949da20387eb" center-position-x="0" center-position-y="5" color="#969696"/>
+    <association uuid="7b114d7c-3ef3-4e2a-811a-1963b2f24d49" color="#969696" split="1"/>
+    <association uuid="7b62ac6b-ef0d-4312-8f9f-505784b5f776" color="#969696" split="1"/>
+    <association uuid="7c080cf9-6691-4fcb-982d-1ff83b327e09" color="#969696" split="1"/>
+    <association uuid="7d328074-e3bf-4163-8ab9-bfb6701e5d6d" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="-20" color="#969696"/>
+    <association uuid="82d47f7d-28b0-4528-8d10-0c56144105a5" center-position-x="-18" center-position-y="29" color="#969696" split="1"/>
+    <association uuid="84374515-c4da-4617-b5a3-5fecc6ab54a4" color="#969696" split="1"/>
+    <association uuid="896e10d2-4823-4e74-a260-861943806cec" center-position-x="15" center-position-y="0" color="#969696"/>
+    <association uuid="8b131837-b39c-4a6c-99d8-00243b23b8eb" color="#969696" split="1"/>
+    <association uuid="8db2a932-36ad-4706-806f-4c4fdda3b630" color="#969696" split="1"/>
+    <association uuid="932797d1-1bf1-4d1d-8d74-0940f5f6ce35" color="#969696" split="1"/>
+    <association uuid="950365ad-85c1-4ec1-8519-cbeaa7d5d110" center-position-x="-27" center-position-y="14" color="#969696" split="1"/>
+    <association uuid="9634b5a0-9d69-4192-8b70-7c85fd928202" center-position-x="-5" center-position-y="-5" color="#969696" split="1"/>
+    <association uuid="965181d8-5744-4f92-b89b-1bbe07c81625" color="#969696" split="1"/>
+    <association uuid="a4322284-ad24-453d-bcd4-3b0a99a08c63" center-position-x="-56" center-position-y="29" color="#969696" split="1"/>
+    <association uuid="a439a6a6-1f4c-46cb-b7b9-5418a1d61ebc" center-position-x="3" center-position-y="7" color="#969696"/>
+    <association uuid="a6f56933-ad05-45c9-87ec-7b69afb20a69" color="#969696" split="1"/>
+    <association uuid="b28a81e9-48ce-4d1c-98f6-563cf5c90404" center-position-x="9" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="bd02dd8b-c6a7-40e9-945d-7f65698e0ccb" center-position-x="0" center-position-y="-11" color="#969696" split="1"/>
+    <association uuid="bd4cc62c-ae15-454b-b0b5-50507c50c3ba" center-position-x="3" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="bd62211f-6841-4ba2-a8fc-622d143567cd" color="#969696" split="1"/>
+    <association uuid="bfa30707-0bbd-46d3-94df-aecf6fb9fafd" center-position-x="-11" center-position-y="0" color="#969696"/>
+    <association uuid="bfdc09ec-1975-486b-9b84-f7fe3b674969" color="#969696" split="1"/>
+    <association uuid="c6e45d28-f9b9-4bf2-b296-7deee323c5c0" color="#969696" split="1"/>
+    <association uuid="ca034cb6-57f8-42be-8698-d01ffd008c11" color="#969696" split="1"/>
+    <association uuid="ca61985e-8390-4a48-8106-6d125b8e5d80" color="#969696"/>
+    <association uuid="d37df2b0-78b5-4270-a917-1097c38eb906" color="#969696" split="1"/>
+    <association uuid="da5e4290-b317-41d9-8196-205606474343" center-position-x="0" center-position-y="16" color="#969696" split="1"/>
+    <association uuid="e64f74b9-a9b4-468c-b164-ed5e2252b40c" color="#969696" split="1"/>
+    <association uuid="f4374952-3e85-4b85-92c0-ef3801ff81ca" center-position-x="34" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="f86bf4e3-5f31-4e65-8ddd-1cb3b09de997" center-position-x="-9" center-position-y="0" color="#969696"/>
+    <association uuid="f8924fcf-7c41-4c10-806e-77fbe1683e3d" color="#969696" split="1"/>
+    <association uuid="f8b1a654-e671-4745-9a13-f1a9d4909d97" center-position-x="9" center-position-y="0" color="#969696" split="1"/>
+    <association uuid="f914956a-4797-4402-8d32-8b1bf0b644f9" color="#969696" split="1"/>
+    <association uuid="faaa1e4f-6fe8-42a5-8daa-1974fc400295" color="#969696" split="1"/>
+    <entity uuid="22e0e635-3ff7-46f2-a011-58d2e4a8b3a2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="936" position-y="444" size-x="0" size-x2="119" size-y="0" size-y2="101"/>
+    <entity uuid="2955eb6b-9e30-40b6-ab61-8345e247b94b" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1541" position-y="69" size-x="0" size-x2="90" size-y="0" size-y2="101"/>
+    <entity uuid="2cd410b6-6d7c-4155-88ac-39f4b7839279" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1555" position-y="115" size-x="0" size-x2="190" size-y="0" size-y2="213"/>
+    <entity uuid="33d8553b-1a59-4b38-882e-8c97deace214" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1354" position-y="894" size-x="0" size-x2="102" size-y="0" size-y2="87"/>
+    <entity uuid="3b203945-73c0-4347-bbc4-51a2b14d8c39" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1055" position-y="222" size-x="0" size-x2="141" size-y="0" size-y2="143"/>
+    <entity uuid="54d559cb-694a-4212-90c1-a0f78c0d6d7b" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1105" position-y="-189" size-x="0" size-x2="96" size-y="0" size-y2="101"/>
+    <entity uuid="550a1f8b-dfd0-4677-8323-605d02ebcf06" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="924" position-y="-256" size-x="0" size-x2="131" size-y="0" size-y2="171"/>
+    <entity uuid="61bb021f-1a84-45fd-a844-2f399bbf877e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="920" position-y="-6" size-x="0" size-x2="108" size-y="0" size-y2="157"/>
+    <entity uuid="71c825e6-dcbd-4622-b601-d66bb46ab981" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1841" position-y="126" size-x="0" size-x2="73" size-y="0" size-y2="45"/>
+    <entity uuid="77858b8b-9330-4a58-a8b5-704c50036ad8" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1555" position-y="894" size-x="0" size-x2="106" size-y="0" size-y2="87"/>
+    <entity uuid="78f01592-3a9a-4a87-bef0-b9ad4857d0b9" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1105" position-y="-6" size-x="0" size-x2="146" size-y="0" size-y2="87"/>
+    <entity uuid="822ea6e4-7b90-48c1-b7bf-53b4bb2261ba" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1620" position-y="444" size-x="0" size-x2="168" size-y="0" size-y2="311"/>
+    <entity uuid="8478a21f-6a25-444c-b1c1-d39eb7ec2ec3" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1711" position-y="-106" size-x="0" size-x2="144" size-y="0" size-y2="115"/>
+    <entity uuid="8a3a4f71-974e-4545-8a08-bc1bbbebf08b" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1476" position-y="-106" size-x="0" size-x2="129" size-y="0" size-y2="129"/>
+    <entity uuid="93151876-74b5-473f-8373-b5ff60b3e3aa" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1305" position-y="69" size-x="0" size-x2="153" size-y="0" size-y2="325"/>
+    <entity uuid="98ad99f9-ecea-4c78-a20a-1794ba4c7aa6" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1869" position-y="44" size-x="0" size-x2="186" size-y="0" size-y2="437"/>
+    <entity uuid="cb6d0bbd-d190-46cb-a946-f79d38d940de" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1701" position-y="65" size-x="0" size-x2="90" size-y="0" size-y2="101"/>
+    <entity uuid="d6decafc-79b0-4f2c-9073-8ec21973a3f7" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1430" position-y="444" size-x="0" size-x2="147" size-y="0" size-y2="395"/>
+    <entity uuid="db2a3a8b-d6e5-4f1c-943b-d18fd5698848" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="1180" position-y="444" size-x="0" size-x2="148" size-y="0" size-y2="325"/>
+    <module uuid="61b45bd7-2431-467a-afba-79e1a9c3d334" bg-color="#FDEBEF" position-x="-855" position-y="-394" size-x="-904" size-x2="2078" size-y="327" size-y2="1051"/>
+    <project uuid="6d2e058a-9af8-416a-a4dc-452b5f9c9ced" size-x="93" size-x2="8329" size-y="755" size-y2="2494"/>
+    <region uuid="7eaeeef7-7c40-47a7-8844-da1be2e100a3" bg-color="#8EDBF1" position-x="-236" position-y="-350" size-x="-1491" size-x2="1941" size-y="-44" size-y2="220"/>
+  </visual-data>
+</skipper>
